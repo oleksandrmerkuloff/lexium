@@ -1,0 +1,94 @@
+**STACK**
+Python, SQLite, SQLAlchemy
+
+
+**Functionality**:
+	Firstly user create "Language" - language what this user want to learn
+		User must write first while firstly run app (after all settings)
+	Every "Language" has a tab in the app and includes sections:
+		theme btn
+		*The "Words" section includes*:
+			Searching line - for search words
+			Add theme btn
+			Full words list (on the top add new word btn):
+				here u can click on the word and do CRUD operations with words
+			LEARNING WORDS subsection:
+				Learn new words btn
+				Repeat words by theme
+				Repeat old word
+				*** after press challenge btn user chose how many words he wants to learn n * 2 because first attemp will be (word -> trans) and second (trans -> word)***
+		*Notes section*:
+			List of notes (first line add new note):
+				here u can click on the word and open note window
+				note window:
+					title, desk, created_at and CRUD btns
+		*Source section*:
+			List of Sources (first line add new Source):
+				here u can click on the word and open Source window
+				Source window:
+					url, desk, created_at and CRUD btns
+
+
+**Models**:
+	*Language*:
+		id: int pk
+		lang: str not null unique
+	*Theme*:
+		id: int pk
+		name: str not null
+		language: foreign key -> "Language"
+	*Word*:
+		id: int pk
+		word: str not null
+		translate: str not null
+		know: bool default=False
+		language: foreign key -> "Language"
+		theme: foreign key -> "Theme" null=True
+	*Note*:
+		id: int pk
+		title: str not null
+		desk: text
+		created_at: datetime
+		language: foreign key -> "Language"
+	*Source*:
+		id: int pk
+		url: str not null
+		desk: text
+		created_at: datetime
+		language: foreign key -> "Language"
+
+**Work with DB**:
+	Create Database - if doesn't exists
+	##Before get any rows app need filter all rows by language##
+	
+	*Language*
+		add_lang
+		edit_lang
+		delete_lang
+		get_lang_by_id
+	*Theme*
+		add_theme
+		edit_theme
+		delete_theme
+		get_theme_by_id
+	*Word*
+		add_word
+		edit_word
+		delete_word		
+		get_word_by_id
+		get_word_by_word
+		get_word_by_translate
+		get_group_of_words: amount(default=10) theme=False know=False -> shortly: user write amount of words, and if need write special theme or state for these words
+	*Note*
+		add_note
+		edit_note
+		delete_note
+		get_note_by_id
+		get_note_by_title
+	*Source*
+		add_source
+		edit_source
+		delete_source
+		get_source_by_id
+
+	
