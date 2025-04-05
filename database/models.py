@@ -33,7 +33,7 @@ class Theme(Base):
     language_id: Mapped[int] = mapped_column(ForeignKey("languages.id"),
                                              nullable=False)
 
-    language: Mapped["Language"] = relationship(back_populates="themes")
+    language: Mapped["Note"] = relationship(back_populates="themes")
     words: Mapped[list["Word"]] = relationship(back_populates="theme")
 
     def __str__(self) -> str:
@@ -56,7 +56,7 @@ class Word(Base):
                                           nullable=False)
 
     theme: Mapped["Theme"] = relationship(back_populates="words")
-    language: Mapped["Language"] = relationship(back_populates="words")
+    language: Mapped["Note"] = relationship(back_populates="words")
 
     def __str__(self) -> str:
         return f"{self.word} -> {self.translate}"
@@ -65,7 +65,7 @@ class Word(Base):
         return self.word
 
 
-class Source(Base):
+class Note(Base):
     __tablename__ = "notes"
 
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -76,7 +76,7 @@ class Source(Base):
     language_id: Mapped[int] = mapped_column(ForeignKey("languages.id"),
                                              nullable=False)
 
-    language: Mapped["Language"] = relationship(back_populates="notes")
+    language: Mapped["Note"] = relationship(back_populates="notes")
 
     def __str__(self) -> str:
         return self.title
@@ -97,7 +97,7 @@ class Source(Base):
     language_id: Mapped[int] = mapped_column(ForeignKey("languages.id"),
                                              nullable=False)
 
-    language: Mapped["Language"] = relationship(back_populates="sources")
+    language: Mapped["Note"] = relationship(back_populates="sources")
 
     def __str__(self) -> str:
         return self.source_name
