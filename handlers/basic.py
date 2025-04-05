@@ -1,4 +1,4 @@
-from typing import Optional, Union, Type
+from typing import Optional, Union
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session, DeclarativeMeta
@@ -15,11 +15,32 @@ class BaseHandler:
             return False
         else:
             db.commit()
-        return True
+            return True
 
     @staticmethod
-    def edit_record():
-        pass
+    def edit_record(
+        db: Session,
+        model: DeclarativeMeta,
+        data: dict
+    ) -> bool:
+        try:
+            record = BaseHandler.get_single_record(
+                db,
+                model,
+                "id",
+                data["id"]
+                )
+            if not record:
+                raise ValueError("Record doesn't exsists!")
+            for key, value in data.items():
+                if key != "id" and hasattr(record, key):
+                    setattr(record, key, value)
+        except Exception:
+            db.rollback()
+            return False
+        else:
+            db.commit()
+            return True
 
     @staticmethod
     def delete_record(
